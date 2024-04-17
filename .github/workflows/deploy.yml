@@ -1,0 +1,51 @@
+name: Deploy GO Code to AWS Lambda Funtion
+
+
+on:
+  workflow_dispatch:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+# pull_request:
+#   branches: [ main ]
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+#     - name: Setup Go Environment
+#       uses: actions/setup-go@v2
+#       with:
+#         go-version: '1.16'
+
+#     - name: Build GO Lambda
+#       run: go build -o go-code/main go-code/*.go
+
+      - name: Setup Node Evinronment for CDK
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install AWS CDK
+        run: npm install -g aws-cdk
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build CDK
+        run: cdk synth
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy CDK Stack
+        run: cdk deploy --require-approval never
