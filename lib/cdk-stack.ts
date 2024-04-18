@@ -9,7 +9,7 @@ export class CdkStack extends cdk.Stack {
 
     // Lambda function Construct
     const goLambda = new lambda.Function(this, 'GoLambda', {
-      runtime: lambda.Runtime.GO_1_X,
+      runtime: lambda.Runtime.PROVIDED_AL2023,
       handler: 'main',
       code: lambda.Code.fromAsset('go-code'),
     });
