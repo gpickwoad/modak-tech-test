@@ -18,18 +18,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-#     - name: Setup Go Environment
-#       uses: actions/setup-go@v2
-#       with:
-#         go-version: '1.16'
+      - name: Setup Go Environment
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.16'
 
-#     - name: Build GO Lambda
-#       run: go build -o go-code/main go-code/*.go
+      - name: Build GO Lambda
+        run: go build -o go-code/main go-code/*.go
 
       - name: Setup Node Evinronment for CDK
         uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: '20'
 
       - name: Install AWS CDK
         run: npm install -g aws-cdk
